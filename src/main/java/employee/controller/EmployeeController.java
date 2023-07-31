@@ -14,6 +14,7 @@ import io.micronaut.http.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -110,29 +111,36 @@ public class EmployeeController {
             messages.add(error);
         }
         Employee employee = new Employee();
-        HashMap<Long, Employee> map = employee.readAll();
-        filterParameter(employeeList, param1, map);
+        if (messages.isEmpty()) {
 
-        if (request.fields.size() > 1) {
-            Param param2 = request.fields.get(1);
-            if (param2.fieldName == null || param2.fieldName.isEmpty()) {
-                messages.add("fieldName must be set.");
-            }
-            if ((param2.eq == null) && (param2.neq == null) || (param2.eq != null) && param2.eq.isEmpty() || (param2.neq != null) && param2.neq.isEmpty()) {
-                String error = param2.fieldName + ": At least one of eq, neq must be set.";
-                messages.add(error);
-            }
-            String condition = request.condition;
-            if (condition == null) {
-                request.condition = "AND";
-            }
-            if (request.condition.isEmpty() || request.condition.equals("AND")) {
-                filterParameter(employeeList, param2, request.condition);
-            } else if (request.condition.equals("OR")) {
-                filterParameter(employeeList, param2, map);
+            if (request.fields.size() > 1) {
+                Param param2 = request.fields.get(1);
+                if (param2.fieldName == null || param2.fieldName.isEmpty()) {
+                    messages.add("fieldName must be set.");
+                }
+                if ((param2.eq == null) && (param2.neq == null) || (param2.eq != null) && param2.eq.isEmpty() || (param2.neq != null) && param2.neq.isEmpty()) {
+                    String error = param2.fieldName + ": At least one of eq, neq must be set.";
+                    messages.add(error);
+                }
+
+                String condition = request.condition;
+                if (condition == null) {
+                    request.condition = "AND";
+                }
+                Collection<Employee> list = employee.readAll().values();
+                filterParameter(employeeList, param1, list);
+                if (request.condition.isEmpty() || request.condition.equals("AND")) {
+                    filterParameter(employeeList, param2);
+                } else if (request.condition.equals("OR")) {
+                    filterParameter(employeeList, param2, list);
+                } else {
+                    employeeList.clear();
+                }
             } else {
-                employeeList.clear();
+                Collection<Employee> list = employee.readAll().values();
+                filterParameter(employeeList, param1, list);
             }
+
         }
 
 
@@ -140,7 +148,7 @@ public class EmployeeController {
         return null;
     }
 
-    private void filterParameter(List<Employee> employeeList, Param param2, String condition) {
+    private void filterParameter(List<Employee> employeeList, Param param2) {
         List<Employee> filterEmployeeList = new ArrayList<>();
         if (param2.fieldName != null && param2.fieldName.equals("name")) {
             if (param2.eq != null && !param2.eq.isEmpty()) {
@@ -176,16 +184,16 @@ public class EmployeeController {
     }
 
 
-    private void filterParameter(List<Employee> employeeList, Param param1, HashMap<Long, Employee> map) {
+    private void filterParameter(List<Employee> employeeList, Param param1, Collection<Employee> list) {
         if (param1.fieldName != null && param1.fieldName.equals("name")) {
             if (param1.eq != null && !param1.eq.isEmpty()) {
-                for (Employee emp : map.values()) {
+                for (Employee emp : list) {
                     if (emp.name.equals(param1.eq)) {
                         employeeList.add(emp);
                     }
                 }
             } else if (param1.neq != null && !param1.neq.isEmpty()) {
-                for (Employee emp : map.values()) {
+                for (Employee emp : list) {
                     if (!emp.name.equals(param1.neq)) {
                         employeeList.add(emp);
                     }
@@ -193,13 +201,13 @@ public class EmployeeController {
             }
         } else if (param1.fieldName != null && param1.fieldName.equals("city")) {
             if (param1.eq != null && !param1.eq.isEmpty()) {
-                for (Employee emp : map.values()) {
+                for (Employee emp : list) {
                     if (emp.city.equals(param1.eq)) {
                         employeeList.add(emp);
                     }
                 }
             } else if (param1.neq != null && !param1.neq.isEmpty()) {
-                for (Employee emp : map.values()) {
+                for (Employee emp : list) {
                     if (!emp.city.equals(param1.neq)) {
                         employeeList.add(emp);
                     }

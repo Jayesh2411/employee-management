@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeControllerTest {
 
-    public static final int ONE_MILLION = 1_0;
+    public static final int ONE_MILLION = 1_000_000;
 
     @Test
     void filterShouldReturnErrorIfEmptyObjectInBodyOrEmptyFields() {

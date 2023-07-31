@@ -1,8 +1,8 @@
 package employee.repository;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import employee.entities.EmployeeRequest;
 import employee.storage.EmployeeID;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.*;
 import java.util.HashMap;
@@ -74,15 +74,17 @@ public class Employee implements Serializable {
 
 
     public HashMap<Long, Employee> readAll() {
-        try (BufferedReader br = new BufferedReader(new FileReader(HOME_EMP))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] empFields = line.split(",");
-                Employee emp = new Employee(empFields[0], empFields[1], empFields[2]);
-                employeeHashMap.put(Long.parseLong(emp.employeeId), emp);
+        if (employeeHashMap.isEmpty()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(HOME_EMP))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] empFields = line.split(",");
+                    Employee emp = new Employee(empFields[0], empFields[1], empFields[2]);
+                    employeeHashMap.put(Long.parseLong(emp.employeeId), emp);
+                }
+            } catch (Exception e) {
+                System.out.println("Error: Error while reading file. " + HOME_EMP);
             }
-        } catch (Exception e) {
-            System.out.println("Error: Error while reading file. " + HOME_EMP);
         }
 
         return employeeHashMap;
@@ -92,11 +94,7 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "employeeId='" + employeeId + '\'' +
-                ", name='" + name + '\'' +
-                ", city='" + city + '\'' +
-                '}';
+        return "Employee{" + "employeeId='" + employeeId + '\'' + ", name='" + name + '\'' + ", city='" + city + '\'' + '}';
     }
 
     public int update(String id, EmployeeRequest request) throws IOException {
@@ -126,8 +124,7 @@ public class Employee implements Serializable {
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile));
         writer.write(content.toString());
         writer.close();
-        if (found == 1)
-            System.out.println("record replaced successfully.");
+        if (found == 1) System.out.println("record replaced successfully.");
         return found;
     }
 
@@ -156,8 +153,7 @@ public class Employee implements Serializable {
         writer.write(content.toString());
         writer.close();
         System.out.println(found);
-        if (found == 1)
-            System.out.println("record replaced successfully.");
+        if (found == 1) System.out.println("record replaced successfully.");
         return found;
     }
 }
