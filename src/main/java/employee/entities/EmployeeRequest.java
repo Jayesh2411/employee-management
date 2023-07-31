@@ -1,4 +1,4 @@
-package ai.sahaj.nano.entities;
+package employee.entities;
 
 
 public class EmployeeRequest {

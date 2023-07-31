@@ -1,4 +1,4 @@
-package ai.sahaj.nano.error;
+package employee.error;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

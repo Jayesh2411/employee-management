@@ -1,4 +1,4 @@
-package ai.sahaj.nano.controller;
+package employee.controller;
 
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;

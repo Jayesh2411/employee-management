@@ -1,4 +1,4 @@
-package ai.sahaj.nano.storage;
+package employee.storage;
 
 import java.io.*;
 
@@ -19,19 +19,21 @@ public class EmployeeID {
                     line = br.readLine();
                     empId = Long.parseLong(line.trim());
                 } catch (Exception e) {
-                    System.out.println("Some Issue reading file");
+                    System.out.println("Some Issue reading file" + e.getMessage());
                 }
             } else {
                 empId = 0L;
             }
+        } else {
+            empId = empId + 1;
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(f))) {
+                // Write data to the file
+                writer.write(String.valueOf(empId));
+            } catch (IOException er) {
+                System.out.println("Error writing data");
+            }
         }
-        empId = empId + 1;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(f))) {
-            // Write data to the file
-            writer.write(String.valueOf(empId));
-        } catch (IOException er) {
-            System.out.println("Error writing data");
-        }
+
         return empId;
     }
 

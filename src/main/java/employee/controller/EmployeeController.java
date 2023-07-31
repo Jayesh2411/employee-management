@@ -1,12 +1,12 @@
-package ai.sahaj.nano.controller;
+package employee.controller;
 
-import ai.sahaj.nano.entities.EmployeeCreateResponse;
-import ai.sahaj.nano.entities.EmployeeRequest;
-import ai.sahaj.nano.entities.Param;
-import ai.sahaj.nano.entities.SearchRequest;
-import ai.sahaj.nano.error.EmpError;
-import ai.sahaj.nano.error.SearchError;
-import ai.sahaj.nano.repository.Employee;
+import employee.entities.EmployeeCreateResponse;
+import employee.entities.EmployeeRequest;
+import employee.entities.Param;
+import employee.entities.SearchRequest;
+import employee.error.EmpError;
+import employee.error.SearchError;
+import employee.repository.Employee;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.MutableHttpResponse;

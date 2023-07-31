@@ -1,4 +1,4 @@
-package ai.sahaj.nano.entities;
+package employee.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

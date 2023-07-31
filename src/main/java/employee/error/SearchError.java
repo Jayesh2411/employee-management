@@ -1,4 +1,4 @@
-package ai.sahaj.nano.error;
+package employee.error;
 
 import java.util.List;
 

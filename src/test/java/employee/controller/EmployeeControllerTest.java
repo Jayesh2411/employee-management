@@ -1,10 +1,10 @@
-package ai.sahaj.nano.controller;
+package employee.controller;
 
-import ai.sahaj.nano.entities.EmployeeRequest;
-import ai.sahaj.nano.entities.Param;
-import ai.sahaj.nano.entities.SearchRequest;
-import ai.sahaj.nano.error.SearchError;
-import ai.sahaj.nano.repository.Employee;
+import employee.entities.EmployeeRequest;
+import employee.entities.Param;
+import employee.entities.SearchRequest;
+import employee.error.SearchError;
+import employee.repository.Employee;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeControllerTest {
 
-    public static final int ONE_MILLION = 1_000_000;
+    public static final int ONE_MILLION = 1_0;
 
     @Test
     void filterShouldReturnErrorIfEmptyObjectInBodyOrEmptyFields() {
