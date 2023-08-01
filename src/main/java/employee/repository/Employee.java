@@ -7,11 +7,13 @@ import employee.storage.EmployeeID;
 import java.io.*;
 import java.util.HashMap;
 
+import static employee.storage.EmployeeCache.employeeHashMap;
+
 @JsonSerialize
 public class Employee implements Serializable {
     String idPath = "empid";
     public static final String HOME_EMP = "emp";
-    public HashMap<Long, Employee> employeeHashMap = new HashMap<>();
+
     public String employeeId;
     public String name;
     public String city;
@@ -88,7 +90,6 @@ public class Employee implements Serializable {
         }
 
         return employeeHashMap;
-
 
     }
 
